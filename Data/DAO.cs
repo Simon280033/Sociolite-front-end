@@ -1,15 +1,18 @@
-﻿namespace Sociolite.Data
+﻿using Sociolite.Models;
+
+namespace Sociolite.Data
 {
     public class DAO : IDAO
     {
-        public List<string> GetJoinedTeams(string userName)
-        {
-            return new List<string>();
-        }
 
         public string GetString(string userName)
         {
             return userName + userName;
+        }
+
+        List<SocioliteTeam> IDAO.GetJoinedTeams(string userId)
+        {
+            return new List<SocioliteTeam>();
         }
     }
 }

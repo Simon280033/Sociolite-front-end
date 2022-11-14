@@ -1,4 +1,5 @@
 ﻿using Microsoft.Graph;
+using Sociolite.Models;
 
 namespace Sociolite.Data
 {
@@ -6,6 +7,6 @@ namespace Sociolite.Data
     {
         string GetString(string userName);
 
-        List<string> GetJoinedTeams(string userName);
+        List<SocioliteTeam> GetJoinedTeams(string userId);
     }
 }

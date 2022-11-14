@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
 @using Sociolite.Data
+@using Sociolite.Models
 @inject TeamsFx teamsfx
 @inject TeamsUserCredential teamsUserCredential
 @inject MicrosoftTeams MicrosoftTeams
@@ -26,6 +27,12 @@ else
             </div>
         </div>
     </div>
+    <div class="center">
+        For development purposes, click here to add or remove dummy team(s) to/from user:
+        <button @onclick="AddTeam">Add team</button>
+        <button @onclick="RemoveTeams">Remove teams</button>
+    </div>
+    <br />
     @if(teams.Any()) {
         // If joined atleast 1 team
         <TeamsOverview></TeamsOverview>
@@ -41,7 +48,17 @@ else
     string contactsString;
     bool isInTeams;
     bool isLoading = true; 
-    List<string> teams { get; set; }
+    List<SocioliteTeam> teams { get; set; }
+
+    protected void AddTeam()
+    {
+        teams.Add(new SocioliteTeam());
+    }
+
+    protected void RemoveTeams()
+    {
+        teams = new List<SocioliteTeam>();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
