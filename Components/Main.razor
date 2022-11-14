@@ -1,0 +1,71 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
+@using Sociolite.Data
+@inject TeamsFx teamsfx
+@inject TeamsUserCredential teamsUserCredential
+@inject MicrosoftTeams MicrosoftTeams
+@inject IWebHostEnvironment HostEnvironment
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigationManager
+@inject IDAO DAO
+
+@if(isLoading)
+{
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+		<FluentProgressRing/>
+	</div>
+}
+else
+{
+    <div class="welcome page">
+        <div class="narrow page-padding">
+            <div class="center">
+                <img style="float: right;" height="50px" width="50px" src="socioliteLogo.png" />
+                <h1>Sociolite</h1>
+            </div>
+        </div>
+    </div>
+    @if(teams.Any()) {
+        // If joined atleast 1 team
+        <TeamsOverview></TeamsOverview>
+    } else {
+        // If not joined any teams
+        <JoinTeamGuide></JoinTeamGuide>
+    }
+}
+
+@code {
+    string userName;
+    string errorMessage;
+    string contactsString;
+    bool isInTeams;
+    bool isLoading = true; 
+    List<string> teams { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if(firstRender)
+        {
+            isInTeams = await MicrosoftTeams.IsInTeams();
+
+            if (isInTeams)
+            { 
+                var user = await teamsUserCredential.GetUserInfoAsync();
+                userName = user.DisplayName;
+
+                teams = DAO.GetJoinedTeams(userName);
+            }
+            else
+            {
+                errorMessage = "Not running in Microsoft Teams.";
+            }
+
+            isLoading = false;
+            StateHasChanged();            
+        }
+    }
+}
+

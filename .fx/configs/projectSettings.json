@@ -1,0 +1,29 @@
+{
+    "appName": "Sociolite",
+    "projectId": "b2d6f9af-32a5-4860-93af-0aeb8f8f329e",
+    "version": "2.1.0",
+    "isFromSample": false,
+    "solutionSettings": {
+        "name": "fx-solution-azure",
+        "version": "1.0.0",
+        "hostType": "Azure",
+        "azureResources": [],
+        "capabilities": [
+            "Tab"
+        ],
+        "activeResourcePlugins": [
+            "fx-resource-frontend-hosting",
+            "fx-resource-identity",
+            "fx-resource-aad-app-for-teams",
+            "fx-resource-local-debug",
+            "fx-resource-appstudio",
+            "fx-resource-cicd",
+            "fx-resource-api-connector"
+        ]
+    },
+    "programmingLanguage": "csharp",
+    "pluginSettings": {
+        "projectFilePath": "C:\\Users\\simon\\source\\repos\\Sociolite\\Sociolite.csproj"
+    },
+    "isFirstTimeOpenProject": false
+}

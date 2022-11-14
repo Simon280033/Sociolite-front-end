@@ -1,0 +1,123 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
+@inject TeamsFx teamsfx
+@inject TeamsUserCredential teamsUserCredential
+@inject MicrosoftTeams MicrosoftTeams
+@inject IWebHostEnvironment HostEnvironment
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigationManager
+
+@if(isLoading)
+{
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+		<FluentProgressRing/>
+	</div>
+}
+else
+{
+    <div class="welcome page">
+        <div class="narrow page-padding">
+            <img src="hello.png" />
+            <h1 class="center">Congratulations@(!String.IsNullOrEmpty(userName) ? ", " + userName : "")!</h1>
+            <p class="center">Your app is running in your @(GetEnvironmentName())</p>
+            <FluentTabs style="width: 80%; justify-content: space-between; margin: 4rem auto;">
+                <FluentTab style="font-size: 14px; min-height: 32px;">1. Build your app locally</FluentTab>
+                <FluentTab>2. Provision and Deploy to the Cloud</FluentTab>
+                <FluentTab>3. Publish to Teams</FluentTab>
+                <FluentTabPanel>
+                    <div style="display:block; width:100%;">
+                        <EditCode />
+                        @if (isInTeams)
+                        {
+                            <CurrentUser UserName="@userName" />
+                        }
+                        <Graph ErrorMessage="@errorMessage"/>
+                    </div>
+                </FluentTabPanel>
+                <FluentTabPanel>
+                    <Deploy/>
+                </FluentTabPanel>
+                <FluentTabPanel>
+                    <Publish/>
+                </FluentTabPanel>
+            </FluentTabs>
+        </div>
+    </div>
+    <div>Hello world! @contactsString</div>
+}
+
+@code {
+    string userName;
+    string errorMessage;
+    string contactsString;
+    bool isInTeams;
+    bool isLoading = true; 
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if(firstRender)
+        {
+            isInTeams = await MicrosoftTeams.IsInTeams();
+
+            if (isInTeams)
+            { 
+                var user = await teamsUserCredential.GetUserInfoAsync();
+                userName = user.DisplayName;
+
+                /*
+                var scopes = new[] { "User.Read" };
+
+                // Multi-tenant apps can use "common",
+                // single-tenant apps must use the tenant ID from the Azure portal
+                var tenantId = "12893fa5-4f74-449f-b552-95d941d89e94";
+
+                // Value from app registration
+                var clientId = "aa4c7566-579a-4a59-aafe-8b96c53bbb16";
+
+                // using Azure.Identity;
+                var options = new TokenCredentialOptions
+                    {
+                        AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
+                    };
+
+                // Callback function that receives the user prompt
+                // Prompt contains the generated device code that you must
+                // enter during the auth process in the browser
+                Func<DeviceCodeInfo, CancellationToken, Task> callback = (code, cancellation) =>
+                {
+                    Console.WriteLine(code.Message);
+                    return Task.FromResult(0);
+                };
+
+                // https://learn.microsoft.com/dotnet/api/azure.identity.devicecodecredential
+                var deviceCodeCredential = new DeviceCodeCredential(
+                    callback, tenantId, clientId, options);
+
+                GraphServiceClient graphClient = new GraphServiceClient(deviceCodeCredential, scopes);
+
+                var contacts = await graphClient.Me.Contacts
+                    .Request()
+                    .GetAsync();
+
+                contactsString = contacts.ToString();
+                */
+            }
+            else
+            {
+                errorMessage = "Not running in Microsoft Teams.";
+            }
+
+            isLoading = false;
+            StateHasChanged();            
+        }
+    }
+
+    private string GetEnvironmentName()
+    {
+        return HostEnvironment.IsDevelopment() ? "local environment" : "Azure environment";
+    }
+}
+
