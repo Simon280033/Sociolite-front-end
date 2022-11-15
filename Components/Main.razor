@@ -60,11 +60,21 @@ else
         {
             ids.Add(userName);
         }
+        TeamsUser user1 = new TeamsUser();
+        user1.Name = "user1";
+        TeamsUser user2 = new TeamsUser();
+        user2.Name = "user2";
+        TeamsUser user3 = new TeamsUser();
+        user3.Name = "user3";
+        TeamsUser user4 = new TeamsUser();
+        user4.Name = "user4";
+        TeamsUser user5 = new TeamsUser();
+        user5.Name = "user5";
         SessionContext.AddTeam(new SocioliteTeam
             {
                 Id = ("" + SessionContext.GetTeams().Count()),
                 Name = "Team " + SessionContext.GetTeams().Count(),
-                Members = new List<TeamsUser>(),
+                Members = new List<TeamsUser> { user1, user2 , user3, user4, user5},
                 RecurranceString = "*/5 * * * * *",
                 Discussions = new List<SocioliteDiscussion>(),
                 Polls = new List<SociolitePoll>(),

@@ -45,7 +45,10 @@
             <div>@Team.Polls.Count()</div>
             </div>
             <div><button disabled="@Team.SchedulerIds.Contains(UserId)">Activities</button></div>
-            <div><button disabled="@Team.SchedulerIds.Contains(UserId)">Manage roles</button></div>
+            <div><button disabled="@Team.SchedulerIds.Contains(UserId)" @onclick="ShowRolesPopUp">Manage roles</button></div>
+            <div>
+                 <ManageTeamPopUp Team=@Team UserId=@UserId Hide=HideRolesPopUp></ManageTeamPopUp>
+            </div>
         </div>
     </div>
 </div>
@@ -57,6 +60,12 @@
 
     [Parameter]
     public string UserId { get; set; }
+
+    public bool HideRolesPopUp = true;
+
+    public void ShowRolesPopUp() {
+        HideRolesPopUp = false;
+    }
 }
 
 }

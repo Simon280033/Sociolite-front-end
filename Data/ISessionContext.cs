@@ -8,5 +8,7 @@ namespace Sociolite.Data
         public void AddTeam(SocioliteTeam team);
 
         public void ClearTeams();
+
+        public void TogglePopUpMode();
     }
 }
