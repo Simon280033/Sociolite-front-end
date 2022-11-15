@@ -1,0 +1,62 @@
+﻿@using Sociolite.Models
+
+<div class="card m-2" style="margin: 5px;">
+    <div class="card-body" style="background-color: #c47572; padding-left: 45px; padding-right: 45px; border-radius: 10px;">
+        <h3 class="card-title text-center">@Team.Name</h3>
+        <div class="card-text text-center">
+            <img class="card-img-top" src="socioliteLogo.png" alt="Card image cap" height="50px" width="50px">
+        </div>
+        <div>
+            <div style="background-color: yellow; border-radius: 5px;">
+                <div style="float: left;">
+                    <img class="card-img-top" src="socioliteLogo.png" alt="Card image cap" height="50px" width="50px">
+                </div>
+                <div>
+            <h4 class="card-text"><b>My role:</b></h4>
+            @if (Team.SchedulerIds.Contains(UserId))
+            {
+                <h5>Scheduler</h5>
+            } 
+            else 
+            {
+                <h5>Member</h5>
+            }
+                </div>
+                @if (Team.SchedulerIds.Contains(UserId))
+                {
+                    <div><button>Relinquish</button></div>
+                }
+                else
+                {
+                    <div><button>Request scheduler</button></div>
+                }
+            </div>
+            <div class="card-subtitle mb-2 text-muted text-center">Members: @Team.Members.Count()</div>
+            <div style="margin: 5px;">
+            <div class="card-text"><b>Happens at:</b></div>
+            <div>@Team.GetReadableRecurranceString()</div>
+            </div>
+            <div style="margin: 5px;">
+            <div class="card-text"><b>Custom discussions left:</b></div>
+            <div>@Team.Discussions.Count()</div>
+            </div>
+            <div style="margin: 5px;">
+            <div class="card-text"><b>Custom polls left:</b></div>
+            <div>@Team.Polls.Count()</div>
+            </div>
+            <div><button disabled="@Team.SchedulerIds.Contains(UserId)">Activities</button></div>
+            <div><button disabled="@Team.SchedulerIds.Contains(UserId)">Manage roles</button></div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public SocioliteTeam Team { get; set; }
+
+    [Parameter]
+    public string UserId { get; set; }
+}
+
+}

@@ -1,5 +1,6 @@
 using Sociolite.Data;
 using Sociolite.Interop.TeamsSDK;
+using Sociolite.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddHttpClient("WebClient", client => client.Timeout = TimeSpan.
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSingleton<IDAO, DAO>();
+builder.Services.AddSingleton<ISessionContext, SessionContext>();
 
 var app = builder.Build();
 

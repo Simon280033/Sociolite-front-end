@@ -1,12 +1,16 @@
 ﻿@using Microsoft.Extensions.Configuration
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
+@using Sociolite.Data
+@using Sociolite.Models
 @inject TeamsFx teamsfx
 @inject TeamsUserCredential teamsUserCredential
 @inject MicrosoftTeams MicrosoftTeams
 @inject IWebHostEnvironment HostEnvironment
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigationManager
+@inject IDAO DAO
+@inject ISessionContext SessionContext
 
 @if(isLoading)
 {
@@ -16,8 +20,18 @@
 }
 else
 {
-    <h1 class="center">Teams you can schedule for:</h1>
-    <div class="center">There will be a list with the joined teams here</div>
+    <button @onclick="Refresh">Refresh</button>
+
+    <h1 class="center">Sociolite teams</h1>
+    <div class="center">Joined teams: @SessionContext.GetTeams().Count()</div>
+    <div class="center">
+        <div class="col-lg-4 mb-2 center" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding-left: 20%; padding-right: 20%;">
+        @foreach (var team in SessionContext.GetTeams())
+   {
+      <TeamCard Team=@team UserId=@userName></TeamCard>
+   }
+        </div>
+    </div>
 }
 
 @code {
@@ -25,7 +39,7 @@ else
     string errorMessage;
     string contactsString;
     bool isInTeams;
-    bool isLoading = true; 
+    bool isLoading = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -53,6 +67,11 @@ else
     private string GetEnvironmentName()
     {
         return HostEnvironment.IsDevelopment() ? "local environment" : "Azure environment";
+    }
+
+    private void Refresh() 
+    {
+        StateHasChanged();
     }
 }
 

@@ -10,6 +10,7 @@
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigationManager
 @inject IDAO DAO
+@inject ISessionContext SessionContext
 
 @if(isLoading)
 {
@@ -20,10 +21,10 @@
 else
 {
     <div class="welcome page">
-        <div class="narrow page-padding">
-            <div class="center">
-                <img style="float: right;" height="50px" width="50px" src="socioliteLogo.png" />
+        <div class="narrow">
+            <div class="center" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
                 <h1>Sociolite</h1>
+                <img height="50px" width="50px" src="socioliteLogo.png" />
             </div>
         </div>
     </div>
@@ -32,8 +33,10 @@ else
         <button @onclick="AddTeam">Add team</button>
         <button @onclick="RemoveTeams">Remove teams</button>
     </div>
+    <div>Teams: @SessionContext.GetTeams().Count()</div>
     <br />
-    @if(teams.Any()) {
+    @if (SessionContext.GetTeams().Any())
+    {
         // If joined atleast 1 team
         <TeamsOverview></TeamsOverview>
     } else {
@@ -48,16 +51,30 @@ else
     string contactsString;
     bool isInTeams;
     bool isLoading = true; 
-    List<SocioliteTeam> teams { get; set; }
 
     protected void AddTeam()
     {
-        teams.Add(new SocioliteTeam());
+        List<string> ids = new List<string>();
+
+        if (SessionContext.GetTeams().Count() % 2 == 0)
+        {
+            ids.Add(userName);
+        }
+        SessionContext.AddTeam(new SocioliteTeam
+            {
+                Id = ("" + SessionContext.GetTeams().Count()),
+                Name = "Team " + SessionContext.GetTeams().Count(),
+                Members = new List<TeamsUser>(),
+                RecurranceString = "*/5 * * * * *",
+                Discussions = new List<SocioliteDiscussion>(),
+                Polls = new List<SociolitePoll>(),
+                SchedulerIds = ids
+            });
     }
 
     protected void RemoveTeams()
     {
-        teams = new List<SocioliteTeam>();
+        SessionContext.ClearTeams();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -72,8 +89,6 @@ else
             { 
                 var user = await teamsUserCredential.GetUserInfoAsync();
                 userName = user.DisplayName;
-
-                teams = DAO.GetJoinedTeams(userName);
             }
             else
             {

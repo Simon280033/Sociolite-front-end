@@ -72,3 +72,13 @@ C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\Json.Net.dll
 C:\Users\simon\source\repos\Sociolite\obj\Debug\net6.0\scopedcss\Components\TeamsOverview.razor.rz.scp.css
 C:\Users\simon\source\repos\Sociolite\obj\Debug\net6.0\scopedcss\Components\Main.razor.rz.scp.css
 C:\Users\simon\source\repos\Sociolite\obj\Debug\net6.0\scopedcss\Components\JoinTeamGuide.razor.rz.scp.css
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\Quartz.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\System.Windows.Extensions.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\simon\source\repos\Sociolite\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
