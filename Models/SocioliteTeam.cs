@@ -22,6 +22,8 @@ namespace Sociolite.Models
 
         public List<string> SchedulerIds { get; set; }
 
+        public bool ActivityIsActive { get; set; }
+
         public string GetReadableRecurranceString()
         {
             /*

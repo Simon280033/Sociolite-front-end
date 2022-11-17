@@ -93,7 +93,8 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
                 RecurranceString = "*/5 * * * * *",
                 Discussions = new List<SocioliteDiscussion>(),
                 Polls = new List<SociolitePoll>(),
-                SchedulerIds = ids
+                SchedulerIds = ids,
+                ActivityIsActive = (SessionContext.GetTeams().Count() % 2 == 0)
             });
     }
 

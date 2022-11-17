@@ -20,12 +20,12 @@
 }
 else
 {
-    <button @onclick="Refresh">Refresh</button>
+    <div>@Teams.Count()</div>
 
     <h1 class="center">Activities for my teams</h1>
     <div class="center">
-        <select @bind="teamChoice">
-            <option value="@teamChoice">@teamChoice</option>
+        <select @onchange="DoStuff">
+            <option value="@defaultChoice">@defaultChoice</option>
             @if (Teams != null)
             {
                 @foreach (var team in Teams)
@@ -34,6 +34,15 @@ else
                 }
             }
         </select>
+    </div>
+
+    <div class="center">
+        <div class="col-lg-4 mb-2 center" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding-left: 20%; padding-right: 20%;">
+            @foreach (var team in TeamsToDisplay)
+            {
+                <ActivityCard Team=@team UserId=@userName></ActivityCard>
+            }
+        </div>
     </div>
 
     // Make cards for activities
@@ -52,6 +61,8 @@ else
 
     List<SocioliteTeam> Teams = new List<SocioliteTeam>();
 
+    List<SocioliteTeam> TeamsToDisplay = new List<SocioliteTeam>();
+
     protected override void OnInitialized()
     {
         Teams = SessionContext.GetTeams();
@@ -59,6 +70,38 @@ else
             defaultChoice = "All joined teams";
         }
         teamChoice = defaultChoice;
+        SetTeamsToShow(teamChoice);
+    }
+
+    protected void DoStuff(ChangeEventArgs e)
+    {
+        string SelectedString = e.Value.ToString();
+        teamChoice = SelectedString;
+
+        SetTeamsToShow(SelectedString);
+
+        StateHasChanged();
+    }
+
+    protected void SetTeamsToShow(string SelectChoice) {
+        if (SelectChoice.Equals("All joined teams"))
+        {
+            TeamsToDisplay = Teams;
+        }
+        else if (SelectChoice.Equals("No teams"))
+        {
+            TeamsToDisplay = new List<SocioliteTeam>();
+        } else {
+            foreach (SocioliteTeam team in Teams)
+            {
+                if (team.Name.Equals(SelectChoice)) { // Make this use ID instead...
+                    List<SocioliteTeam> NewTeamsList = new List<SocioliteTeam>();
+                    NewTeamsList.Add(team);
+                    TeamsToDisplay = NewTeamsList;
+                    break;
+                }
+            }
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -83,7 +126,7 @@ else
             StateHasChanged();
         }
 
-        Teams = SessionContext.GetTeams();
+        //Teams = SessionContext.GetTeams();
     }
 
     private string GetEnvironmentName()

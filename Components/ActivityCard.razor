@@ -1,0 +1,53 @@
+﻿@using Sociolite.Models
+
+<div class="card m-2" style="margin: 5px;">
+    <div class="card-body" style="background-color: #c47572; padding-left: 45px; padding-right: 45px; border-radius: 10px;">
+        <h3 class="card-title text-center">@Team.Name</h3> 
+        </div>
+            <div style="margin: 5px;">
+            <div class="card-text"><b>Happens at:</b></div>
+            <div>@Team.GetReadableRecurranceString()</div>
+            </div>
+            <div style="margin: 5px;">
+            <div class="card-text"><b>Custom discussions left:</b></div>
+            <div>@Team.Discussions.Count()</div>
+            </div>
+            <div style="margin: 5px;">
+            <div class="card-text"><b>Custom polls left:</b></div>
+            <div>@Team.Polls.Count()</div>
+            </div>
+            <div style="margin: 5px;">
+            <div class="card-text"><b>Status:</b></div>
+            <div>@Team.ActivityIsActive</div>
+            </div>
+
+            <div><button disabled="DisableManagerButtons">Edit</button></div>
+            <div><button disabled="DisableManagerButtons" @onclick="ShowRolesPopUp">Pause</button></div>
+            <div>
+                 <ManageTeamPopUp Team=@Team UserId=@UserId Hide=HideRolesPopUp></ManageTeamPopUp>
+            </div>
+        </div>
+
+@code {
+
+    [Parameter]
+    public SocioliteTeam Team { get; set; }
+
+    [Parameter]
+    public string UserId { get; set; }
+
+    public bool HideRolesPopUp = true;
+
+    public bool DisableManagerButtons = true;
+
+        protected override void OnInitialized()
+    {
+        DisableManagerButtons = !Team.SchedulerIds.Contains(UserId);
+    }
+
+    public void ShowRolesPopUp() {
+        HideRolesPopUp = false;
+    }
+}
+
+}
