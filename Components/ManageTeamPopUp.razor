@@ -7,11 +7,28 @@
             <button style="background-color: indianred; color: white; width: 50px;" @onclick="HidePopUp">x</button>
         </div>
         <div>Team members for team '@Team.Name':</div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
     @foreach (var member in Team.Members)
     {
+        <br />
+        <div style="margin: 5px;"> 
+        <img class="card-img-top" src="socioliteLogo.png" alt="Card image cap" height="50px" width="50px">
+                    <br />
         <div>@member.Name</div>
+                    <div>Role:</div>
+                    <select id="roles" name="rolelist" form="roleform">
+                        <option value="manager">Manager</option>
+                        <option value="scheduler">Scheduler</option>
+                        <option value="default">Default</option>
+                    </select>
+        </div>
     }
+        </div>
+        <br />
+        <div><button @onclick="DisplayStatus">Save</button></div>
+        <div><button @onclick="HidePopUp">Cancel</button></div>
     </div>
+    <MessagePopUp Header=@StatusHeader Message=@StatusMessage Hide=@HideStatusPopUp></MessagePopUp>
 </div>
 
 @code {
@@ -25,7 +42,20 @@
     [Parameter]
     public bool Hide { get; set; }
 
+    public bool HideStatusPopUp = true;
+
+    public string StatusHeader = "testhest";
+
+    public string StatusMessage = "testhest2";
+
     public void HidePopUp() {
         Hide = true;
+    }
+
+    public void DisplayStatus() { // This only shows up the first time
+        StatusHeader = "Save team";
+        StatusMessage = "Changes saved!";
+
+        HideStatusPopUp = false;
     }
 }

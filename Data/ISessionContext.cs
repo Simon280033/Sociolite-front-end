@@ -9,6 +9,10 @@ namespace Sociolite.Data
 
         public void ClearTeams();
 
-        public void TogglePopUpMode();
+        public bool ToggleWindow();
+
+        public string GetWindow();
+
+        public void SetWindow(string name);
     }
 }

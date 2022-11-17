@@ -1,0 +1,99 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
+@using Sociolite.Data
+@using Sociolite.Models
+@inject TeamsFx teamsfx
+@inject TeamsUserCredential teamsUserCredential
+@inject MicrosoftTeams MicrosoftTeams
+@inject IWebHostEnvironment HostEnvironment
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigationManager
+@inject IDAO DAO
+@inject ISessionContext SessionContext
+
+@if (isLoading)
+{
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+        <FluentProgressRing />
+    </div>
+}
+else
+{
+    <button @onclick="Refresh">Refresh</button>
+
+    <h1 class="center">Activities for my teams</h1>
+    <div class="center">
+        <select @bind="teamChoice">
+            <option value="@teamChoice">@teamChoice</option>
+            @if (Teams != null)
+            {
+                @foreach (var team in Teams)
+                {
+                    <option value="@team.Name">@team.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    // Make cards for activities
+    // Make an onchange listener on select, and re-render cards when new value is selected
+}
+
+@code {
+    string userName;
+    string errorMessage;
+    string contactsString;
+    bool isInTeams;
+    bool isLoading = true;
+
+    string defaultChoice = "No teams";
+    string teamChoice = "No teams";
+
+    List<SocioliteTeam> Teams = new List<SocioliteTeam>();
+
+    protected override void OnInitialized()
+    {
+        Teams = SessionContext.GetTeams();
+        if (Teams.Any()) {
+            defaultChoice = "All joined teams";
+        }
+        teamChoice = defaultChoice;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            isInTeams = await MicrosoftTeams.IsInTeams();
+
+            if (isInTeams)
+            {
+                var user = await teamsUserCredential.GetUserInfoAsync();
+                userName = user.DisplayName;
+            }
+            else
+            {
+                errorMessage = "Not running in Microsoft Teams.";
+            }
+
+            isLoading = false;
+            StateHasChanged();
+        }
+
+        Teams = SessionContext.GetTeams();
+    }
+
+    private string GetEnvironmentName()
+    {
+        return HostEnvironment.IsDevelopment() ? "local environment" : "Azure environment";
+    }
+
+    private void Refresh()
+    {
+        StateHasChanged();
+    }
+}
+

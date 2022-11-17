@@ -20,11 +20,13 @@
 }
 else
 {
+    <div style="background: rgb(231,231,231);
+background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%, rgba(255,255,255,1) 23%, rgba(255,255,255,1) 90%);">
     <div class="welcome page">
         <div class="narrow">
             <div class="center" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
-                <h1>Sociolite</h1>
-                <img height="50px" width="50px" src="socioliteLogo.png" />
+                <h1 style="padding-right: 15px; color: dimgray; font-size: 60px;">Sociolite</h1>
+                <img height="75px" width="75px" src="socioliteLogo.png" />
             </div>
         </div>
     </div>
@@ -32,16 +34,29 @@ else
         For development purposes, click here to add or remove dummy team(s) to/from user:
         <button @onclick="AddTeam">Add team</button>
         <button @onclick="RemoveTeams">Remove teams</button>
+
+            <div>Teams: @SessionContext.GetTeams().Count()</div>
+            <div>Window: @SessionContext.GetWindow()</div>
+
+        <div>
+                <button class="teamsTabButton" @onclick=" GoToTeams">
+                <img style="float: left;" height="40px" width="40px" src="socioliteTeamsIcon.png" />
+                    <span>Teams</span>
+            </button>
+            <button class="activitiesTabButton" @onclick="GoToActivities">
+                <img style="float: left;" height="40px" width="40px" src="socioliteActivitiesIcon.png" />
+                    <span>Activities</span>
+            </button>
+        </div>
     </div>
-    <div>Teams: @SessionContext.GetTeams().Count()</div>
-    <br />
-    @if (SessionContext.GetTeams().Any())
+    </div>
+    @if (String.Equals(SessionContext.GetWindow(), "teams"))
     {
         // If joined atleast 1 team
         <TeamsOverview></TeamsOverview>
     } else {
         // If not joined any teams
-        <JoinTeamGuide></JoinTeamGuide>
+        <ActivitiesOverview></ActivitiesOverview>
     }
 }
 
@@ -85,6 +100,16 @@ else
     protected void RemoveTeams()
     {
         SessionContext.ClearTeams();
+    }
+
+    protected void GoToTeams()
+    {
+        SessionContext.SetWindow("teams");
+    }
+
+    protected void GoToActivities()
+    {
+        SessionContext.SetWindow("activities");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

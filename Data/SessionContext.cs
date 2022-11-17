@@ -6,7 +6,9 @@ namespace Sociolite.Data
     {
         public List<SocioliteTeam> teams = new List<SocioliteTeam>();
 
-        public bool InPopUpMode = false;
+        public bool ShowTeams = true;
+
+        public string Window = "teams";
 
         public void AddTeam(SocioliteTeam team)
         {
@@ -23,9 +25,20 @@ namespace Sociolite.Data
             return teams;
         }
 
-        public void TogglePopUpMode()
+        public string GetWindow()
         {
-            InPopUpMode = !InPopUpMode;
+            return Window;
+        }
+
+        public void SetWindow(string name)
+        {
+            Window = name;
+        }
+
+        public bool ToggleWindow()
+        {
+            ShowTeams = !ShowTeams;
+            return ShowTeams;
         }
     }
 }
