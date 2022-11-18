@@ -1,5 +1,4 @@
 ﻿@using Sociolite.Models
-@inject List<SociolitePoll> PollsToAdd
 
 <div hidden="@Hide" class="card m-2" style="background-color: rgba(25, 25, 25, .5); position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%;">
     <div style="background-color: white; position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40%">
@@ -11,7 +10,7 @@
         <div>Custom polls team '@Team.Name':</div>
         <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
             <div style="overflow: scroll; height: 200px;">
-                @foreach (var poll in Team.Polls)
+                @foreach (var poll in TotalPolls)
                 {
                     <br />
                     <div style="margin: 5px; background-color: cornflowerblue;">
@@ -59,14 +58,40 @@
 
     public string message = "none";
 
+    public List<SociolitePoll> PollsToAdd = new List<SociolitePoll>();
+
+    public List<SociolitePoll> TotalPolls = new List<SociolitePoll>();
+
     void ClickHandler(SociolitePoll newMessage)
     {
-        message = newMessage.Question;
+        SociolitePoll tempPoll = new SociolitePoll
+            {
+                Id = "test",
+                CreatedById = UserId,
+                CreationTime = "18/11/2022",
+                Question = newMessage.Question,
+                Answers = new List<string> { "test1", "test2" }
+            };
+
+        TotalPolls = new List<SociolitePoll>();
+        PollsToAdd.Add(tempPoll);
+        TotalPolls.AddRange(Team.Polls);
+        TotalPolls.AddRange(PollsToAdd);
+
+        string temp = "";
+        foreach (var poll in TotalPolls)
+        {
+            temp = temp + poll.Question + ", ";
+        }
+
+        message = temp;
+
+        HideCreatePollPopUp = true;
     }
 
-        protected override void OnInitialized()
-        {
-            Team.Polls.Add(new SociolitePoll
+    protected override void OnInitialized()
+    {
+        Team.Polls.Add(new SociolitePoll
             {
                 Id = "test",
                 CreatedById = UserId,
@@ -74,6 +99,8 @@
                 Question = "Test hest",
                 Answers = new List<string> { "test1", "test2" }
             });
+
+        TotalPolls = Team.Polls;
     }
 
     public void HidePopUp()
@@ -96,6 +123,15 @@
 
     protected void RemoveCustomPoll(SociolitePoll poll)
     {
-        Team.Polls.Remove(poll);
+        // This currently removes from Team.Polls, which is also the object used on the main Tab. Put data in seperate list and use this one in this component
+        if (Team.Polls.Contains(poll)) {
+            Team.Polls.Remove(poll);
+        }
+        else if (PollsToAdd.Contains(poll)) {
+            PollsToAdd.Remove(poll);
+        }
+        TotalPolls.Remove(poll);
+
+        HideCreatePollPopUp = true;
     }
 }

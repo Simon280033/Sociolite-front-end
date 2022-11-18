@@ -37,7 +37,7 @@
         <br />
         <div>
             <br />
-            <div><button @onclick="AddToScoped" disabled="@Validated()">Add new poll</button></div>
+            <div><button @onclick="AddToPollToList" disabled="@Validated()">Add new poll</button></div>
             <div><button @onclick="HidePopUp">Cancel</button></div>
         </div>
     </div>
@@ -114,14 +114,25 @@
         }
     }
 
-    protected void AddToScoped()
+    protected void AddToPollToList()
     {
         OnClick.InvokeAsync(PollToCreate);
-        HidePopUp();
+        Hide = true;
+        TempAnswers = new List<string>();
+
+        AnswerToAdd = "";
+
+        NamesChecked = false;
+        StateHasChanged();
     }
 
     protected bool Validated()
     {
         return !(PollToCreate.Question.Length > 0 && PollToCreate.Answers.Count > 0);
+    }
+
+    protected void ClearComponent()
+    {
+
     }
 }
