@@ -16,7 +16,7 @@
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom polls left:</b></div>
             <div>@Team.Polls.Count()</div>
-            <div><button disabled="@DisableManagerButtons">Manage custom polls</button></div>
+            <div><button disabled="@DisableManagerButtons" @onclick="ShowPollPopUp">Manage custom polls</button></div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Status:</b></div>
@@ -35,6 +35,9 @@
             <div>
                  <ManageDiscussionsPopUp Team=@Team UserId=@UserId Hide=HideDiscussionPopUp></ManageDiscussionsPopUp>
             </div>
+            <div>
+                 <ManagePollsPopUp Team=@Team UserId=@UserId Hide=HidePollPopUp></ManagePollsPopUp>
+            </div>
         </div>
        </div>
 @code {
@@ -49,19 +52,31 @@
 
     public bool HideDiscussionPopUp = true;
 
+    public bool HidePollPopUp = true;
+
     public bool DisableManagerButtons = true;
 
-        protected override void OnInitialized()
+    protected override void OnInitialized()
     {
         DisableManagerButtons = !Team.SchedulerIds.Contains(UserId);
     }
 
     public void ShowTimePopUp() {
+        HideDiscussionPopUp = true;
+        HidePollPopUp = true;
         HideTimePopUp = false;
     }
 
     public void ShowDiscussionPopUp() {
+        HideTimePopUp = true;
+        HidePollPopUp = true;
         HideDiscussionPopUp = false;
+    }
+
+    public void ShowPollPopUp() {
+        HideTimePopUp = true;
+        HideDiscussionPopUp = true;
+        HidePollPopUp = false;
     }
 }
 

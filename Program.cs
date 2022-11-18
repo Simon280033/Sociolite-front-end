@@ -17,6 +17,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IDAO, DAO>();
 builder.Services.AddSingleton<ISessionContext, SessionContext>();
 
+builder.Services.AddScoped<List<SociolitePoll>>();
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

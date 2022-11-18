@@ -27,6 +27,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY3Rpdml0eUNhcmQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/simon/source/repos/Sociolite/Components/CreatePollPopUp.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDcmVhdGVQb2xsUG9wVXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/simon/source/repos/Sociolite/Components/CurrentUser.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDdXJyZW50VXNlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -49,6 +53,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/simon/source/repos/Sociolite/Components/ManageDiscussionsPopUp.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xNYW5hZ2VEaXNjdXNzaW9uc1BvcFVwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/simon/source/repos/Sociolite/Components/ManagePollsPopUp.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xNYW5hZ2VQb2xsc1BvcFVwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/simon/source/repos/Sociolite/Components/ManageTeamPopUp.razor]
