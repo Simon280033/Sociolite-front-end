@@ -1,33 +1,39 @@
 ﻿@using Sociolite.Models
 
-<div class="card m-2" style="margin: 5px;">
+<div class="card m-2" style="margin: 5px; text-align: center">
     <div class="card-body" style="background-color: #c47572; padding-left: 45px; padding-right: 45px; border-radius: 10px;">
         <h3 class="card-title text-center">@Team.Name</h3> 
-        </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Happens at:</b></div>
             <div>@Team.GetReadableRecurranceString()</div>
+            <div><button disabled="@DisableManagerButtons">Change time</button></div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom discussions left:</b></div>
             <div>@Team.Discussions.Count()</div>
+            <div><button disabled="@DisableManagerButtons">Manage custom discussions</button></div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom polls left:</b></div>
             <div>@Team.Polls.Count()</div>
+            <div><button disabled="@DisableManagerButtons">Manage custom polls</button></div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Status:</b></div>
-            <div>@Team.ActivityIsActive</div>
+            @if(@Team.ActivityIsActive) {
+                 <div>Active</div>
+                 <div><button disabled="@DisableManagerButtons" @onclick="ShowRolesPopUp">Pause</button></div>
+            } else {
+                 <div>Paused</div>
+                 <div><button disabled="@DisableManagerButtons" @onclick="ShowRolesPopUp">Resume</button></div>
+            }
             </div>
 
-            <div><button disabled="DisableManagerButtons">Edit</button></div>
-            <div><button disabled="DisableManagerButtons" @onclick="ShowRolesPopUp">Pause</button></div>
             <div>
                  <ManageTeamPopUp Team=@Team UserId=@UserId Hide=HideRolesPopUp></ManageTeamPopUp>
             </div>
         </div>
-
+       </div>
 @code {
 
     [Parameter]
