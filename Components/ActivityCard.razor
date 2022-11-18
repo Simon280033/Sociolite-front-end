@@ -6,7 +6,7 @@
             <div style="margin: 5px;">
             <div class="card-text"><b>Happens at:</b></div>
             <div>@Team.GetReadableRecurranceString()</div>
-            <div><button disabled="@DisableManagerButtons">Change time</button></div>
+            <div><button disabled="@DisableManagerButtons" @onclick="ShowRolesPopUp">Change time</button></div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom discussions left:</b></div>
@@ -30,7 +30,7 @@
             </div>
 
             <div>
-                 <ManageTeamPopUp Team=@Team UserId=@UserId Hide=HideRolesPopUp></ManageTeamPopUp>
+                 <SetTimePopUp Team=@Team UserId=@UserId Hide=HideTimePopUp></SetTimePopUp>
             </div>
         </div>
        </div>
@@ -42,7 +42,7 @@
     [Parameter]
     public string UserId { get; set; }
 
-    public bool HideRolesPopUp = true;
+    public bool HideTimePopUp = true;
 
     public bool DisableManagerButtons = true;
 
@@ -52,7 +52,7 @@
     }
 
     public void ShowRolesPopUp() {
-        HideRolesPopUp = false;
+        HideTimePopUp = false;
     }
 }
 

@@ -1,0 +1,118 @@
+﻿@using Sociolite.Models
+
+<div hidden="@Hide" class="card m-2" style="background-color: rgba(25, 25, 25, .5); position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%;">
+    <div style="background-color: white; position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40%">
+        <div style="display: flex;">
+            <div style="background-color: mediumpurple; color: white; width: -webkit-fill-available;">Change time</div>
+            <button style="background-color: indianred; color: white; width: 50px;" @onclick="HidePopUp">x</button>
+        </div>
+        <div>Activities occur for team '@Team.Name' at:</div>
+        <div>
+            <input type="time" id="appt" name="appt" min="00:00" max="23:59" @bind="OccurAtTime">
+        </div>
+        <div>On the following days:</div>
+
+        @foreach (var check in CheckBoxList())
+        {
+            <input class="custom-checkbox" type="checkbox" @onchange="eventArgs => { CheckboxClicked(check, eventArgs.Value); }" />
+            @check
+            <br />
+        }
+
+        <br />
+        <div><button @onclick="DisplayStatus">Save</button></div>
+        <div><button @onclick="HidePopUp">Cancel</button></div>
+    </div>
+    <MessagePopUp Header=@StatusHeader Message=@StatusMessage Hide=@HideStatusPopUp></MessagePopUp>
+</div>
+
+@code {
+
+    [Parameter]
+    public SocioliteTeam Team { get; set; }
+
+    [Parameter]
+    public string UserId { get; set; }
+
+    [Parameter]
+    public bool Hide { get; set; }
+
+    public DateTime OccurAtTime = new DateTime();
+
+    public bool HideStatusPopUp = true;
+
+    public string StatusHeader = "testhest1";
+
+    public string StatusMessage = "testhest2";
+
+    public string days = "test";
+
+    public List<string> CheckBox { get; set; } = new List<string>();
+    void CheckboxClicked(string CheckID, object checkedValue)
+    {
+        if ((bool)checkedValue)
+        {
+            if (!CheckBox.Contains(CheckID))
+            {
+                CheckBox.Add(CheckID);
+            }
+        }
+        else
+        {
+            if (CheckBox.Contains(CheckID))
+            {
+                CheckBox.Remove(CheckID);
+            }
+        }
+
+        string test = "";
+
+        foreach (var i in CheckBox)
+        {
+            test = test + i + ", ";
+        }
+
+        days = test;
+    }
+
+    public List<String> CheckBoxList()
+    {
+        List<String> checkBox = new List<String>();
+        checkBox.Add("Monday");
+        checkBox.Add("Tuesday");
+        checkBox.Add("Wednesday");
+        checkBox.Add("Thursday");
+        checkBox.Add("Friday");
+        checkBox.Add("Saturday");
+        checkBox.Add("Sunday");
+
+        return checkBox;
+    }
+
+    protected override void OnInitialized()
+    {
+        // Set CheckBox values based on string
+
+        // Set OccurAtTime value based on string
+
+        // Find a way to read recurrencestring and convert to/from
+    }
+
+    public void HidePopUp()
+    {
+        Hide = true;
+    }
+
+    public void DisplayStatus()
+    { // This only shows up the first time
+        StatusHeader = "Change time";
+        StatusMessage = "Time succesfully changed!";
+
+        HideStatusPopUp = false;
+    }
+
+    protected void TimeChanged(ChangeEventArgs e)
+    {
+        Console.WriteLine(e.Value.ToString())
+    ;    }
+}
