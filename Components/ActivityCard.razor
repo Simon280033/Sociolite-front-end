@@ -6,12 +6,12 @@
             <div style="margin: 5px;">
             <div class="card-text"><b>Happens at:</b></div>
             <div>@Team.GetReadableRecurranceString()</div>
-            <div><button disabled="@DisableManagerButtons" @onclick="ShowRolesPopUp">Change time</button></div>
+            <div><button disabled="@DisableManagerButtons" @onclick="ShowTimePopUp">Change time</button></div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom discussions left:</b></div>
             <div>@Team.Discussions.Count()</div>
-            <div><button disabled="@DisableManagerButtons">Manage custom discussions</button></div>
+            <div><button disabled="@DisableManagerButtons" @onclick="ShowDiscussionPopUp">Manage custom discussions</button></div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom polls left:</b></div>
@@ -22,15 +22,18 @@
             <div class="card-text"><b>Status:</b></div>
             @if(@Team.ActivityIsActive) {
                  <div>Active</div>
-                 <div><button disabled="@DisableManagerButtons" @onclick="ShowRolesPopUp">Pause</button></div>
+                 <div><button disabled="@DisableManagerButtons" @onclick="ShowTimePopUp">Pause</button></div>
             } else {
                  <div>Paused</div>
-                 <div><button disabled="@DisableManagerButtons" @onclick="ShowRolesPopUp">Resume</button></div>
+                 <div><button disabled="@DisableManagerButtons" @onclick="ShowTimePopUp">Resume</button></div>
             }
             </div>
 
             <div>
                  <SetTimePopUp Team=@Team UserId=@UserId Hide=HideTimePopUp></SetTimePopUp>
+            </div>
+            <div>
+                 <ManageDiscussionsPopUp Team=@Team UserId=@UserId Hide=HideDiscussionPopUp></ManageDiscussionsPopUp>
             </div>
         </div>
        </div>
@@ -44,6 +47,8 @@
 
     public bool HideTimePopUp = true;
 
+    public bool HideDiscussionPopUp = true;
+
     public bool DisableManagerButtons = true;
 
         protected override void OnInitialized()
@@ -51,8 +56,12 @@
         DisableManagerButtons = !Team.SchedulerIds.Contains(UserId);
     }
 
-    public void ShowRolesPopUp() {
+    public void ShowTimePopUp() {
         HideTimePopUp = false;
+    }
+
+    public void ShowDiscussionPopUp() {
+        HideDiscussionPopUp = false;
     }
 }
 

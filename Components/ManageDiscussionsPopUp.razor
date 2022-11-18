@@ -1,0 +1,97 @@
+﻿@using Sociolite.Models
+
+<div hidden="@Hide" class="card m-2" style="background-color: rgba(25, 25, 25, .5); position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%;">
+    <div style="background-color: white; position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40%">
+        <div style="display: flex;">
+            <div style="background-color: mediumpurple; color: white; width: -webkit-fill-available;">Manage custom discussions</div>
+            <button style="background-color: indianred; color: white; width: 50px;" @onclick="HidePopUp">x</button>
+        </div>
+        <div>Custom discussions team '@Team.Name':</div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
+            <div style="overflow: scroll; height: 200px;">
+            @foreach (var discussion in Team.Discussions)
+            {
+                <br />
+                    <div style="margin: 5px; background-color: cornflowerblue;">
+                    <div style="text-align: left">
+                    <div><span><b>Topic:</b></span><span>@discussion.Topic</span></div>
+                    <div><span><b>Created by:</b></span><span>@discussion.CreatedById</span><span>(@discussion.CreationTime)</span></div>
+                    </div>
+                        <button @onclick="() => RemoveCustomTopic(discussion)">x</button>
+                </div>
+            }
+            </div>
+        </div>
+        <br />
+        <div>Add new discussion topic:</div>
+        <div>
+            <input type="text" id="newtopic" name="newtopic" placeholder="Discussion topic..." @bind="CustomTopicToAdd">
+            <button @onclick="AddCustomTopic">Add custom topic</button>
+        </div>
+        <br />
+        <div><button @onclick="DisplayStatus">Save</button></div>
+        <div><button @onclick="HidePopUp">Cancel</button></div>
+    </div>
+    <MessagePopUp Header=@StatusHeader Message=@StatusMessage Hide=@HideStatusPopUp></MessagePopUp>
+</div>
+
+@code {
+
+    [Parameter]
+    public SocioliteTeam Team { get; set; }
+
+    [Parameter]
+    public string UserId { get; set; }
+
+    [Parameter]
+    public bool Hide { get; set; }
+
+    public string CustomTopicToAdd = "";
+
+    public bool HideStatusPopUp = true;
+
+    public string StatusHeader = "testhest";
+
+    public string StatusMessage = "testhest2";
+
+    protected override void OnInitialized()
+    {
+        Team.Discussions.Add(new SocioliteDiscussion{
+            Id = "test",
+            CreatedById = UserId,
+            CreationTime = "18/11/2022",
+            Topic = "Test hest"
+        });
+    }
+
+    public void HidePopUp()
+    {
+        Hide = true;
+    }
+
+    public void DisplayStatus()
+    { // This only shows up the first time
+        StatusHeader = "Manage custom discussions";
+        StatusMessage = "Changes saved!";
+
+        HideStatusPopUp = false;
+    }
+
+    protected void AddCustomTopic()
+    { 
+        Team.Discussions.Add(new SocioliteDiscussion
+            {
+                Id = "test",
+                CreatedById = UserId,
+                CreationTime = "18/11/2022",
+                Topic = CustomTopicToAdd
+            });
+
+        CustomTopicToAdd = "";
+    }
+
+    protected void RemoveCustomTopic(SocioliteDiscussion discussion)
+    {
+        Team.Discussions.Remove(discussion);
+    }
+}
