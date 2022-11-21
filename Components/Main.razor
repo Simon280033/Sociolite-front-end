@@ -3,6 +3,8 @@
 @using Microsoft.Extensions.Hosting
 @using Sociolite.Data
 @using Sociolite.Models
+@using Microsoft.Graph
+@using System.Text
 @inject TeamsFx teamsfx
 @inject TeamsUserCredential teamsUserCredential
 @inject MicrosoftTeams MicrosoftTeams
@@ -50,6 +52,7 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
         </div>
     </div>
     </div>
+    <div>@members</div>
     @if (String.Equals(SessionContext.GetWindow(), "teams"))
     {
         // If joined atleast 1 team
@@ -65,7 +68,9 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
     string errorMessage;
     string contactsString;
     bool isInTeams;
-    bool isLoading = true; 
+    bool isLoading = true;
+
+    string members;
 
     protected void AddTeam()
     {
@@ -132,8 +137,60 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
             }
 
             isLoading = false;
+
+            members = await GetMembersAsync(GetGraphServiceClient());
+
             StateHasChanged();            
         }
     }
+
+        private GraphServiceClient GetGraphServiceClient()
+    {
+        var msGraphAuthProvider = new MsGraphAuthProvider(teamsUserCredential, "TeamMember.Read.All");
+        var client = new GraphServiceClient(msGraphAuthProvider);
+
+        return client;
+    }
+
+    private async Task<string> GetMembersAsync(GraphServiceClient graph)
+    {
+     var members = await graph.Teams["d74f1165-c907-4400-9439-77e8a97f5d33"].Members
+	.Request()
+	.GetAsync();
+
+                var sb = new StringBuilder();
+            foreach (var member in members)
+            {
+                sb.AppendFormat(
+                    "Id = {0}, DisplayName = {1}",
+                    member.Id, member.DisplayName);
+
+                sb.AppendLine();
+            }
+
+        return sb.ToString();
+    }   
+
+        private async Task<string> GetJoinedTeamsAsync(GraphServiceClient graph)
+    {
+
+   var joinedTeams = await graph.Me.JoinedTeams
+	.Request()
+	.GetAsync();
+
+                var sb = new StringBuilder();
+            foreach (var team in joinedTeams)
+            {
+                sb.AppendFormat(
+                    "Id = {0}, DisplayName = {1}",
+                    team.Id, team.DisplayName);
+
+                sb.AppendLine();
+            }
+
+        return sb.ToString();
+    }   
 }
+
+
 
