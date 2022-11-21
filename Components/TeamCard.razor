@@ -22,14 +22,6 @@
                 <h5>Member</h5>
             }
                 </div>
-                @if (Team.SchedulerIds.Contains(UserId))
-                {
-                    <div><button>Relinquish</button></div>
-                }
-                else
-                {
-                    <div><button>Request scheduler</button></div>
-                }
             </div>
             <div class="card-subtitle mb-2 text-muted text-center">Members: @Team.Members.Count()</div>
             <div style="margin: 5px;">
