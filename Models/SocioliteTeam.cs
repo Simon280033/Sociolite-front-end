@@ -26,14 +26,5 @@ namespace Sociolite.Models
 
         public bool ActivityIsActive { get; set; }
 
-        public string GetReadableRecurranceString()
-        {
-            /*
-            CronExpression t = new CronExpression(RecurranceString);
-            return t.GetExpressionSummary();
-            */
-            return "Every weekday at 12:30";
-        }
-
     }
 }

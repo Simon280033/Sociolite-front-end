@@ -1,4 +1,5 @@
 ﻿@using Sociolite.Models
+@using Sociolite.Data
 @using System.Text
 
 <div hidden="@Hide" class="card m-2" style="background-color: rgba(25, 25, 25, .5); position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%;">
@@ -28,7 +29,7 @@
         <br />
         <div><button @onclick="DisplayStatus">Save</button></div>
         <div><button @onclick="HidePopUp">Cancel</button></div>
-        <div>@recurranceString</div>
+        <div>@Team.RecurranceString</div>
     </div>
     <MessagePopUp Header=@StatusHeader Message=@StatusMessage Hide=@HideStatusPopUp></MessagePopUp>
 </div>
@@ -44,6 +45,8 @@
     [Parameter]
     public bool Hide { get; set; }
 
+    public RecurranceManager recurranceManager = new RecurranceManager();
+
     public string OccurAtTime = "00:00";
 
     public bool HideStatusPopUp = true;
@@ -51,8 +54,6 @@
     public string StatusHeader = "testhest1";
 
     public string StatusMessage = "testhest2";
-
-    public string recurranceString = "test";
 
     public List<string> TimesStrings { get; set; } = new List<string>();
 
@@ -154,29 +155,7 @@
 
     protected void BuildRecurranceString()
     {
-        Dictionary<string, int> Days = new Dictionary<string, int>()
-                {
-                    ["Monday"] = 0,
-                    ["Tuesday"] = 1,
-                    ["Wednesday"] = 2,
-                    ["Thursday"] = 3,
-                    ["Friday"] = 4,
-                    ["Saturday"] = 5,
-                    ["Sunday"] = 6
-                };
-
-        string temp = "0000000";
-
-        foreach (var i in CheckBox)
-        {
-            StringBuilder sb = new StringBuilder(temp);
-            sb[Days[i]] = '1';
-            temp = sb.ToString();
-        }
-
-        temp = temp + OccurAtTime.Replace(":", "");
-
-        recurranceString = temp;
+        Team.RecurranceString = recurranceManager.BuildRecurranceString(CheckBox, OccurAtTime);
     }
 
 }

@@ -1,11 +1,12 @@
 ﻿@using Sociolite.Models
+@using Sociolite.Data
 
 <div class="card m-2" style="margin: 5px; text-align: center">
     <div class="card-body" style="background-color: #c47572; padding-left: 45px; padding-right: 45px; border-radius: 10px;">
         <h3 class="card-title text-center">@Team.Name</h3> 
             <div style="margin: 5px;">
             <div class="card-text"><b>Happens at:</b></div>
-            <div>@Team.GetReadableRecurranceString()</div>
+            <div>@recurranceManager.ConvertRecurranceStringToReadableFormat(Team.RecurranceString)</div>
             <div><button disabled="@DisableManagerButtons" @onclick="ShowTimePopUp">Change time</button></div>
             </div>
             <div style="margin: 5px;">
@@ -47,6 +48,8 @@
 
     [Parameter]
     public string UserId { get; set; }
+
+    public RecurranceManager recurranceManager = new RecurranceManager();
 
     public bool HideTimePopUp = true;
 

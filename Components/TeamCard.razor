@@ -1,4 +1,5 @@
 ﻿@using Sociolite.Models
+@using Sociolite.Data
 @using Microsoft.Graph
 @inject TeamsUserCredential teamsUserCredential
 
@@ -21,7 +22,7 @@
             <div class="card-subtitle mb-2 text-muted text-center">Members: @Team.Members.Count()</div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Happens at:</b></div>
-            <div>@Team.GetReadableRecurranceString()</div>
+            <div>@recurranceManager.ConvertRecurranceStringToReadableFormat(Team.RecurranceString)</div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom discussions left:</b></div>
@@ -47,6 +48,8 @@
 
     [Parameter]
     public string UserId { get; set; }
+
+    public RecurranceManager recurranceManager = new RecurranceManager();
 
     public string RoleInTeam = "Default member";
 
