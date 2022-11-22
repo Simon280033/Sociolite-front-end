@@ -10,12 +10,12 @@
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom discussions left:</b></div>
-            <div>@Team.Discussions.Count()</div>
+            <div>@Team.CustomDiscussions.Count()</div>
             <div><button disabled="@DisableManagerButtons" @onclick="ShowDiscussionPopUp">Manage custom discussions</button></div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom polls left:</b></div>
-            <div>@Team.Polls.Count()</div>
+            <div>@Team.CustomPolls.Count()</div>
             <div><button disabled="@DisableManagerButtons" @onclick="ShowPollPopUp">Manage custom polls</button></div>
             </div>
             <div style="margin: 5px;">

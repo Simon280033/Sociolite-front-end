@@ -74,31 +74,35 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
 
     protected void AddTeam()
     {
-        List<string> ids = new List<string>();
+        List<string> managerIds = new List<string>();
+        List<string> schedulerIds = new List<string>();
 
         if (SessionContext.GetTeams().Count() % 2 == 0)
         {
-            ids.Add(userName);
+            managerIds.Add(userName);
+        } else {
+            schedulerIds.Add(userName);
         }
-        TeamsUser user1 = new TeamsUser();
+        SocioliteUser user1 = new SocioliteUser();
         user1.Name = "user1";
-        TeamsUser user2 = new TeamsUser();
+        SocioliteUser user2 = new SocioliteUser();
         user2.Name = "user2";
-        TeamsUser user3 = new TeamsUser();
+        SocioliteUser user3 = new SocioliteUser();
         user3.Name = "user3";
-        TeamsUser user4 = new TeamsUser();
+        SocioliteUser user4 = new SocioliteUser();
         user4.Name = "user4";
-        TeamsUser user5 = new TeamsUser();
+        SocioliteUser user5 = new SocioliteUser();
         user5.Name = "user5";
         SessionContext.AddTeam(new SocioliteTeam
             {
                 Id = ("" + SessionContext.GetTeams().Count()),
                 Name = "Team " + SessionContext.GetTeams().Count(),
-                Members = new List<TeamsUser> { user1, user2 , user3, user4, user5},
+                Members = new List<SocioliteUser> { user1, user2 , user3, user4, user5},
                 RecurranceString = "*/5 * * * * *",
-                Discussions = new List<SocioliteDiscussion>(),
-                Polls = new List<SociolitePoll>(),
-                SchedulerIds = ids,
+                CustomDiscussions = new List<SocioliteDiscussion>(),
+                CustomPolls = new List<SociolitePoll>(),
+                ManagerIds = managerIds,
+                SchedulerIds = schedulerIds,
                 ActivityIsActive = (SessionContext.GetTeams().Count() % 2 == 0)
             });
     }

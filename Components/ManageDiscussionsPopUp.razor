@@ -9,7 +9,7 @@
         <div>Custom discussions team '@Team.Name':</div>
         <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
             <div style="overflow: scroll; height: 200px;">
-            @foreach (var discussion in Team.Discussions)
+            @foreach (var discussion in Team.CustomDiscussions)
             {
                 <br />
                     <div style="margin: 5px; background-color: cornflowerblue;">
@@ -56,7 +56,7 @@
 
     protected override void OnInitialized()
     {
-        Team.Discussions.Add(new SocioliteDiscussion{
+        Team.CustomDiscussions.Add(new SocioliteDiscussion{
             Id = "test",
             CreatedById = UserId,
             CreationTime = "18/11/2022",
@@ -79,7 +79,7 @@
 
     protected void AddCustomTopic()
     { 
-        Team.Discussions.Add(new SocioliteDiscussion
+        Team.CustomDiscussions.Add(new SocioliteDiscussion
             {
                 Id = "test",
                 CreatedById = UserId,
@@ -92,6 +92,6 @@
 
     protected void RemoveCustomTopic(SocioliteDiscussion discussion)
     {
-        Team.Discussions.Remove(discussion);
+        Team.CustomDiscussions.Remove(discussion);
     }
 }

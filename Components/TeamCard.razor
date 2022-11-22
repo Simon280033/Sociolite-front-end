@@ -1,4 +1,6 @@
 ﻿@using Sociolite.Models
+@using Microsoft.Graph
+@inject TeamsUserCredential teamsUserCredential
 
 <div class="card m-2" style="margin: 5px;">
     <div class="card-body" style="background-color: #c47572; padding-left: 45px; padding-right: 45px; border-radius: 10px;">
@@ -9,18 +11,11 @@
         <div>
             <div style="background-color: yellow; border-radius: 5px;">
                 <div style="float: left;">
-                    <img class="card-img-top" src="socioliteLogo.png" alt="Card image cap" height="50px" width="50px">
+                    <img class="card-img-top" src="@UserPhoto" alt="Card image cap" height="50px" width="50px">
                 </div>
                 <div>
             <h4 class="card-text"><b>My role:</b></h4>
-            @if (Team.SchedulerIds.Contains(UserId))
-            {
-                <h5>Scheduler</h5>
-            } 
-            else 
-            {
-                <h5>Member</h5>
-            }
+                <h5>@RoleInTeam</h5>
                 </div>
             </div>
             <div class="card-subtitle mb-2 text-muted text-center">Members: @Team.Members.Count()</div>
@@ -30,13 +25,13 @@
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom discussions left:</b></div>
-            <div>@Team.Discussions.Count()</div>
+            <div>@Team.CustomDiscussions.Count()</div>
             </div>
             <div style="margin: 5px;">
             <div class="card-text"><b>Custom polls left:</b></div>
-            <div>@Team.Polls.Count()</div>
+            <div>@Team.CustomPolls.Count()</div>
             </div>
-            <div><button disabled="@DisableManagerButtons">Activities</button></div>
+            <div><button disabled="@DisableSchedulerButtons">Activities</button></div>
             <div><button disabled="@DisableManagerButtons" @onclick="ShowRolesPopUp">Manage roles</button></div>
             <div>
                  <ManageTeamPopUp Team=@Team UserId=@UserId Hide=HideRolesPopUp></ManageTeamPopUp>
@@ -53,17 +48,86 @@
     [Parameter]
     public string UserId { get; set; }
 
+    public string RoleInTeam = "Default member";
+
+    public string UserPhoto = "defaultAvatar.png";
+
     public bool DisableManagerButtons = true;
+
+    public bool DisableSchedulerButtons = true;
 
     public bool HideRolesPopUp = true;
 
-        protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
-        DisableManagerButtons = !Team.SchedulerIds.Contains(UserId);
+        SetRoleSpecificButtonOptions();
+        SetRoleForTeam();
+
+        GetPhotoAsync(GetGraphServiceClient());
+    }
+
+    public void SetRoleSpecificButtonOptions() {
+        // If user is manager for team
+        if (Team.ManagerIds.Contains(UserId)) {
+            DisableManagerButtons = false;
+            DisableSchedulerButtons = false;
+        }
+
+        // If user is scheduler for team
+        if (Team.SchedulerIds.Contains(UserId)) {
+            DisableManagerButtons = true;
+            DisableSchedulerButtons = false;
+        }
+    }
+
+    public void SetRoleForTeam() {
+        // If user is manager for team
+        if (Team.ManagerIds.Contains(UserId)) {
+            RoleInTeam = "Manager";
+        }
+
+        // If user is scheduler for team
+        if (Team.SchedulerIds.Contains(UserId)) {
+            RoleInTeam = "Scheduler";
+        }
     }
 
     public void ShowRolesPopUp() {
         HideRolesPopUp = false;
+    }
+
+    private GraphServiceClient GetGraphServiceClient()
+    {
+        var msGraphAuthProvider = new MsGraphAuthProvider(teamsUserCredential, "User.Read");
+        var client = new GraphServiceClient(msGraphAuthProvider);
+
+        return client;
+    }
+
+    private async void GetPhotoAsync(GraphServiceClient graph)
+    {
+        string userPhoto = "";
+        try
+        {
+            var photoStream = await graph.Me.Photo.Content.Request().GetAsync();
+
+            if (photoStream != null)
+            {
+                // Copy the photo stream to a memory stream
+                // to get the bytes out of it
+                var memoryStream = new MemoryStream();
+                photoStream.CopyTo(memoryStream);
+                var photoBytes = memoryStream.ToArray();
+
+                // Generate a data URI for the photo
+                userPhoto = $"data:image/png;base64,{Convert.ToBase64String(photoBytes)}";
+            }
+        }
+        catch (Exception) { /* Unable to get the users photo */ }
+
+        UserPhoto = userPhoto;
+
+        StateHasChanged();
     }
 }
 

@@ -75,7 +75,7 @@
 
         TotalPolls = new List<SociolitePoll>();
         PollsToAdd.Add(tempPoll);
-        TotalPolls.AddRange(Team.Polls);
+        TotalPolls.AddRange(Team.CustomPolls);
         TotalPolls.AddRange(PollsToAdd);
 
         string temp = "";
@@ -91,7 +91,7 @@
 
     protected override void OnInitialized()
     {
-        Team.Polls.Add(new SociolitePoll
+        Team.CustomPolls.Add(new SociolitePoll
             {
                 Id = "test",
                 CreatedById = UserId,
@@ -100,7 +100,7 @@
                 Answers = new List<string> { "test1", "test2" }
             });
 
-        TotalPolls = Team.Polls;
+        TotalPolls = Team.CustomPolls;
     }
 
     public void HidePopUp()
@@ -124,8 +124,8 @@
     protected void RemoveCustomPoll(SociolitePoll poll)
     {
         // This currently removes from Team.Polls, which is also the object used on the main Tab. Put data in seperate list and use this one in this component
-        if (Team.Polls.Contains(poll)) {
-            Team.Polls.Remove(poll);
+        if (Team.CustomPolls.Contains(poll)) {
+            Team.CustomPolls.Remove(poll);
         }
         else if (PollsToAdd.Contains(poll)) {
             PollsToAdd.Remove(poll);

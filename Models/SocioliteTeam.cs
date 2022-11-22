@@ -14,11 +14,13 @@ namespace Sociolite.Models
 
         public string Name { get; set; }
 
-        public List<TeamsUser> Members { get; set; }
+        public List<SocioliteUser> Members { get; set; }
 
         public string RecurranceString { get; set; }
-        public List<SocioliteDiscussion> Discussions { get; set; }
-        public List<SociolitePoll> Polls { get; set; }
+        public List<SocioliteDiscussion> CustomDiscussions { get; set; }
+        public List<SociolitePoll> CustomPolls { get; set; }
+
+        public List<string> ManagerIds { get; set; }
 
         public List<string> SchedulerIds { get; set; }
 
