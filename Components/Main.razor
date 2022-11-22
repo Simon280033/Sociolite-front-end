@@ -179,7 +179,7 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
         private async Task<string> GetJoinedTeamsAsync(GraphServiceClient graph)
     {
 
-   var joinedTeams = await graph.Me.JoinedTeams
+   var joinedTeams = await graph.Me.JoinedTeams // Then compare these with the ones in API -> the ones that are on both, are Sociolite teams
 	.Request()
 	.GetAsync();
 
