@@ -1,4 +1,5 @@
 ﻿@using Sociolite.Models
+@using System.Text
 
 <div hidden="@Hide" class="card m-2" style="background-color: rgba(25, 25, 25, .5); position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%;">
     <div style="background-color: white; position: fixed; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40%">
@@ -8,7 +9,12 @@
         </div>
         <div>Activities occur for team '@Team.Name' at:</div>
         <div>
-            <input type="time" id="appt" name="appt" min="00:00" max="23:59" @bind="OccurAtTime">
+            <select id="times" name="timeList" form="timeForm" @bind="@OccurAtTime">
+                @foreach (var time in TimesStrings)
+                {
+                    <option value="@time">@time</option>
+                }
+            </select>
         </div>
         <div>On the following days:</div>
 
@@ -22,6 +28,7 @@
         <br />
         <div><button @onclick="DisplayStatus">Save</button></div>
         <div><button @onclick="HidePopUp">Cancel</button></div>
+        <div>@recurranceString</div>
     </div>
     <MessagePopUp Header=@StatusHeader Message=@StatusMessage Hide=@HideStatusPopUp></MessagePopUp>
 </div>
@@ -37,7 +44,7 @@
     [Parameter]
     public bool Hide { get; set; }
 
-    public DateTime OccurAtTime = new DateTime();
+    public string OccurAtTime = "00:00";
 
     public bool HideStatusPopUp = true;
 
@@ -45,7 +52,11 @@
 
     public string StatusMessage = "testhest2";
 
-    public string days = "test";
+    public string recurranceString = "test";
+
+    public List<string> TimesStrings { get; set; } = new List<string>();
+
+    public List<int> TimesInts { get; set; } = new List<int>();
 
     public List<string> CheckBox { get; set; } = new List<string>();
     void CheckboxClicked(string CheckID, object checkedValue)
@@ -64,15 +75,6 @@
                 CheckBox.Remove(CheckID);
             }
         }
-
-        string test = "";
-
-        foreach (var i in CheckBox)
-        {
-            test = test + i + ", ";
-        }
-
-        days = test;
     }
 
     public List<String> CheckBoxList()
@@ -96,6 +98,8 @@
         // Set OccurAtTime value based on string
 
         // Find a way to read recurrencestring and convert to/from
+
+        SetTimeLists();
     }
 
     public void HidePopUp()
@@ -105,6 +109,8 @@
 
     public void DisplayStatus()
     { // This only shows up the first time
+        BuildRecurranceString();
+
         StatusHeader = "Change time";
         StatusMessage = "Time succesfully changed!";
 
@@ -113,6 +119,64 @@
 
     protected void TimeChanged(ChangeEventArgs e)
     {
-        Console.WriteLine(e.Value.ToString())
-    ;    }
+        Console.WriteLine(e.Value.ToString());    
+    }
+
+    protected string GetReadableTime(int minutes)
+    {
+        var result = TimeSpan.FromMinutes(minutes);
+        var hrs = (int)result.TotalHours;
+        var mins = (int)result.Minutes;
+
+        string hrsString = "" + hrs;
+        string minsString = "" + mins;
+
+        if (hrs < 10) {
+            hrsString = "0" + hrsString;
+        }
+
+        if (mins < 10)
+        {
+            minsString = "0" + minsString;
+        }
+
+        return hrsString + ":" + minsString;
+    }
+
+    protected void SetTimeLists()
+    {
+        for (int i = 0; i < 1430; i = i + 30) {
+            string timeString = GetReadableTime(i);
+            TimesStrings.Add(timeString);
+            TimesInts.Add(Int32.Parse(timeString.Replace(":", "")));
+        }
+    }
+
+    protected void BuildRecurranceString()
+    {
+        Dictionary<string, int> Days = new Dictionary<string, int>()
+                {
+                    ["Monday"] = 0,
+                    ["Tuesday"] = 1,
+                    ["Wednesday"] = 2,
+                    ["Thursday"] = 3,
+                    ["Friday"] = 4,
+                    ["Saturday"] = 5,
+                    ["Sunday"] = 6
+                };
+
+        string temp = "0000000";
+
+        foreach (var i in CheckBox)
+        {
+            StringBuilder sb = new StringBuilder(temp);
+            sb[Days[i]] = '1';
+            temp = sb.ToString();
+        }
+
+        temp = temp + OccurAtTime.Replace(":", "");
+
+        recurranceString = temp;
+    }
+
 }
