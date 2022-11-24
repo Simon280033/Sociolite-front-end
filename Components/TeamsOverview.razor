@@ -28,7 +28,7 @@ else
         <div class="col-lg-4 mb-2 center" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding-left: 20%; padding-right: 20%;">
         @foreach (var team in SessionContext.GetTeams())
    {
-      <TeamCard Team=@team UserId=@userName></TeamCard>
+                <TeamCard Team=@team MSTTeam="@SessionContext.GetMSTTeams()[0]" UserId=@userName></TeamCard>
    }
         </div>
     </div>

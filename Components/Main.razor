@@ -52,7 +52,7 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
         </div>
     </div>
     </div>
-    //<div>@members</div>
+    <div>@members</div>
     @if (String.Equals(SessionContext.GetWindow(), "teams"))
     {
         // If joined atleast 1 team
@@ -142,10 +142,74 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
 
             isLoading = false;
 
-            members = await GetMembersAsync(GetGraphServiceClient());
+
+            List<MSTTeam> mstteams = await GetSocioliteTeamsAsync(GetGraphServiceClient());
+
+            mstteams = GetOnlyTeamsWithBotConnectedChannel(mstteams);
+
+            SessionContext.AddMSTTeams(mstteams);
 
             StateHasChanged();            
+
+            // First time user tries, they are not tied to bot
+            // Bot will make table in API with channel ID
+            // If no team is found for user, run method to match against channel IDs
         }
+    }
+
+    private List<MSTTeam> GetOnlyTeamsWithBotConnectedChannel(List<MSTTeam> joinedTeams)
+    {
+        // The list below will be retrieved from API
+        List<string> socioliteChannelIds = new List<string> { "19:5d175fc71c154b1dbde3b8ee066c5131@thread.tacv2" };
+
+        // We only get those where a channel ID from the list is present
+        List<MSTTeam> socioliteTeams = new List<MSTTeam>();
+
+        // We go through each team in joinedTeams
+        foreach (var team in joinedTeams) {
+            // We go through each of their channels
+            foreach (var channelId in team.ChannelIds) {
+                if (socioliteChannelIds.Contains(channelId)) {
+                    socioliteTeams.Add(team);
+                    break;
+                }
+            }
+        }
+
+        return socioliteTeams;
+    }
+
+    private async Task<List<MSTTeam>> GetSocioliteTeamsAsync(GraphServiceClient graph)
+    {
+        // The bot can only access the channel ID, so we need to get the joined teams, and then compare with the channels to get a match
+        // We get the joined teams for the user
+        var joinedTeams = await graph.Me.JoinedTeams.Request().GetAsync();
+
+        List<MSTTeam> mstteams = new List<MSTTeam>();
+
+        foreach (var team in joinedTeams) {
+            MSTTeam mstteam = new MSTTeam();
+            mstteam.Id = team.Id;
+
+            // We get the channels
+            mstteam.ChannelIds = new List<string>();
+            var channels = await graph.Teams[team.Id].Channels.Request().GetAsync();
+            foreach (var channel in channels)
+            {
+                mstteam.ChannelIds.Add(channel.Id);
+            }
+
+            // We get the members
+            mstteam.MemberIds = new List<string>();
+            var members = await graph.Teams[team.Id].Members.Request().GetAsync();
+            foreach (var member in members)
+            {
+                mstteam.MemberIds.Add(member.Id);
+            }
+            mstteams.Add(mstteam);
+        }
+
+        return mstteams;
     }
 
         private GraphServiceClient GetGraphServiceClient()
@@ -195,6 +259,26 @@ background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(240,240,240,1) 5%
 
         return sb.ToString();
     }   
+
+    private async Task<string> GetChannelsAsync(GraphServiceClient graph)
+    {
+
+        var joinedTeams = await graph.Teams["d74f1165-c907-4400-9439-77e8a97f5d33"].Channels
+    .Request()
+    .GetAsync();
+
+        var sb = new StringBuilder();
+        foreach (var team in joinedTeams)
+        {
+            sb.AppendFormat(
+                "Id = {0}, DisplayName = {1}",
+                team.Id, team.DisplayName);
+
+            sb.AppendLine();
+        }
+
+        return sb.ToString();
+    }
 
             private async Task<string> GetUserPhotoAsync(GraphServiceClient graph)
     {
