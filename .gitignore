@@ -1,11 +1,3 @@
-# TeamsFx files
-node_modules
-.fx/configs/localSettings.json
-.fx/states/*.userdata
-.DS_Store
-.env.teamsfx.local
-subscriptionInfo.json
-build
-.fx/configs/config.local.json
-.fx/states/state.local.json
-appsettings.Development.json
+version https://git-lfs.github.com/spec/v1
+oid sha256:96536beb4c694b550431b5de59a483c612df06ee1887bb325157db8ce6e39742
+size 225

@@ -1,30 +1,3 @@
-﻿using Quartz.Impl.Triggers;
-using Quartz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sociolite.Models
-{
-    public class SocioliteTeam
-    {
-        public string Id { get; set; }
-
-        public string Name { get; set; }
-
-        public List<SocioliteUser> Members { get; set; }
-
-        public string RecurranceString { get; set; }
-        public List<SocioliteDiscussion> CustomDiscussions { get; set; }
-        public List<SociolitePoll> CustomPolls { get; set; }
-
-        public List<string> ManagerIds { get; set; }
-
-        public List<string> SchedulerIds { get; set; }
-
-        public bool ActivityIsActive { get; set; }
-
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:db14700eb6b34bbd493c8dba2be1911e3013d04a97046a62cc9024e8fbb3c9f4
+size 827

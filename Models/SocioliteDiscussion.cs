@@ -1,16 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sociolite.Models
-{
-    public class SocioliteDiscussion
-    {
-        public string Id { get; set; }
-        public string CreatedById { get; set; }
-        public string CreationTime { get; set; }
-        public string Topic { get; set; }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a08c46994d48deabfb95b64ba2665cb9156f1c2df7279016481326b008d5a420
+size 378

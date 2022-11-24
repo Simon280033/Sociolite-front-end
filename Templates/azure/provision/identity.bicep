@@ -1,15 +1,3 @@
-@secure()
-param provisionParameters object
-var resourceBaseName = provisionParameters.resourceBaseName
-var identityName = contains(provisionParameters, 'userAssignedIdentityName') ? provisionParameters['userAssignedIdentityName'] : '${resourceBaseName}' // Try to read name for user assigned identity from parameters
-
-// user assigned identity will be used to access other Azure resources
-resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
-  name: identityName
-  location: resourceGroup().location
-}
-
-output identityName string = identityName
-output identityClientId string = managedIdentity.properties.clientId
-output identityResourceId string = managedIdentity.id
-output identityPrincipalId string = managedIdentity.properties.principalId
+version https://git-lfs.github.com/spec/v1
+oid sha256:0efec0d997b14f1c48faf47f1e7e1508ba423b97ab3c44b3c9d776e5c304d50a
+size 781

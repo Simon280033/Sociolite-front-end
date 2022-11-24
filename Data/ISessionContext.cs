@@ -1,23 +1,3 @@
-﻿using Microsoft.TeamsFx;
-using Sociolite.Models;
-
-namespace Sociolite.Data
-{
-    public interface ISessionContext
-    {
-        public void AddMSTTeams(List<MSTTeam> teams);
-        public List<MSTTeam> GetMSTTeams();
-        public List<SocioliteTeam> GetTeams();
-        public void AddTeam(SocioliteTeam team);
-
-        public void ClearTeams();
-
-        public string GetWindow();
-
-        public void SetWindow(string name);
-
-        public void SetOwnPhoto(string photoBase64);
-
-        public Task<string> GetOwnPhoto(TeamsUserCredential teamsUserCredential);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5ec01b7c3a05c9e9163e56d76d108c71c95dfb98a30d46a1b4c895b3b1574fe1
+size 578

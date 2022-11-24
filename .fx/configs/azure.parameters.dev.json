@@ -1,15 +1,3 @@
-{
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "provisionParameters": {
-      "value": {
-        "resourceBaseName": "sociolitedev3229df",
-        "m365ClientId": "{{state.fx-resource-aad-app-for-teams.clientId}}",
-        "m365ClientSecret": "{{state.fx-resource-aad-app-for-teams.clientSecret}}",
-        "m365TenantId": "{{state.fx-resource-aad-app-for-teams.tenantId}}",
-        "m365OauthAuthorityHost": "{{state.fx-resource-aad-app-for-teams.oauthHost}}"
-      }
-    }
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f148d7d127ffc93405917da4bca32df6566087a258f8f3f561768c4ecef63bd9
+size 586

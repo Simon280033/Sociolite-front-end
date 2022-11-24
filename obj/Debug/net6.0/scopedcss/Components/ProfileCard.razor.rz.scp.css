@@ -1,28 +1,3 @@
-.profile[b-8oo890eu7w] {
-    display: flex;
-    align-items: center;
-}
-
-    .profile .avatar[b-8oo890eu7w] {        
-        flex: 1 0 auto;
-    }
-
-    .profile .avatar img[b-8oo890eu7w] {
-        margin: 15px;
-        height: 64px;
-        width: 64px;
-        border-radius: 32px;
-    }
-
-    .profile .info[b-8oo890eu7w] {
-        margin: 0 2em;
-        flex: 4 0 auto;
-    }
-
-        .profile .info > h3[b-8oo890eu7w] {
-            margin: 0;
-        }
-
-        .profile .info > p[b-8oo890eu7w] {
-            margin: 0;
-        }
+version https://git-lfs.github.com/spec/v1
+oid sha256:848d6e62a45a8e2bfd38e3928d1a5c94ac8b5948ce971a36872063e06417c701
+size 533

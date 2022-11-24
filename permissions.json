@@ -1,9 +1,3 @@
-[
-    {
-        "resource": "Microsoft Graph",
-        "delegated": [
-            "User.Read"
-        ],
-        "application": []
-    }
-]
+version https://git-lfs.github.com/spec/v1
+oid sha256:3fc9ea90c32e9f0f6dcfe8927493b06a87effbb3b13ecede328250254dd453d1
+size 139

@@ -1,27 +1,3 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32929.385
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sociolite", "Sociolite.csproj", "{7D24BEBD-BF48-491E-BC76-5E578B5A34C3}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7D24BEBD-BF48-491E-BC76-5E578B5A34C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D24BEBD-BF48-491E-BC76-5E578B5A34C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D24BEBD-BF48-491E-BC76-5E578B5A34C3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{7D24BEBD-BF48-491E-BC76-5E578B5A34C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D24BEBD-BF48-491E-BC76-5E578B5A34C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D24BEBD-BF48-491E-BC76-5E578B5A34C3}.Release|Any CPU.Deploy.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F3681251-2735-4F08-AC8B-8428FA33B328}
-	EndGlobalSection
-EndGlobal
+version https://git-lfs.github.com/spec/v1
+oid sha256:77f22593a8162a41e7826a84aee85582c9725dd1904ee437aa5c852b5481a25f
+size 1262

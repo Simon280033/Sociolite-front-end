@@ -1,10 +1,3 @@
-{
-    "$schema": "https://aka.ms/teamsfx-env-config-schema",
-    "description": "You can customize the TeamsFx config for different environments. Visit https://aka.ms/teamsfx-env-config to learn more about this.",
-    "manifest": {
-        "appName": {
-            "short": "Sociolite",
-            "full": "Full name for Sociolite"
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:25ae6f072526b2c6ee4f5996f55008ae5785ffba68675d497ba19d5588f6b596
+size 350

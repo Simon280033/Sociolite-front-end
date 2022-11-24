@@ -1,25 +1,3 @@
-{
-  "profiles": {
-    "Microsoft Teams (browser)": {
-      "commandName": "Project",
-      "dotnetRunMessages": "true",
-      "launchBrowser": true,
-      "launchUrl": "https://teams.microsoft.com/l/app/26d7b077-5d92-45af-801f-614eac3dbf92?installAppPackage=true&webjoin=true&appTenantId=12893fa5-4f74-449f-b552-95d941d89e94&login_hint=simonautzen@xsq4x.onmicrosoft.com",
-      "applicationUrl": "https://localhost:44302;http://localhost:2544",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "hotReloadProfile": "aspnetcore"
-    },
-    "Sociolite": {
-      "commandName": "Project",
-      "dotnetRunMessages": "true",
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:44302;http://localhost:2544",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "hotReloadProfile": "aspnetcore"
-    }
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3e22981b422c910df0b6bd9888d111161ee589b06631aa1d32ffc6ca4c568b85
+size 907
